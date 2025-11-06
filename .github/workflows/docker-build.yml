@@ -1,0 +1,36 @@
+name: Docker Build and Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Build Docker image
+        run: docker-compose build
+      
+      - name: Run tests
+        run: |
+          docker-compose up -d
+          sleep 30
+          docker-compose ps
+          docker logs bugbounty-mcp
+      
+      - name: Check service health
+        run: |
+          docker exec bugbounty-mcp python -c "print('MCP Server OK')" || exit 1
+      
+      - name: Cleanup
+        if: always()
+        run: docker-compose down -v

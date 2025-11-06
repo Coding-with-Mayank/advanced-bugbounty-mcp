@@ -1,7 +1,6 @@
 # MCP Server
 mcp>=0.9.0
 pydantic>=2.0.0
-asyncio>=3.4.3
 aiohttp>=3.9.0
 aiofiles>=23.0.0
 
@@ -26,9 +25,10 @@ playwright>=1.40.0
 
 # API Integrations
 shodan>=1.31.0
-python-virustotal>=1.0.0
+# python-virustotal causes issues, using vt-py instead
+vt-py>=0.17.0
 censys>=2.2.0
-securitytrails>=1.3.0
+# securitytrails>=1.3.0  # Optional - may not be available
 PyGithub>=2.1.1
 
 # Scanning & Analysis
@@ -46,10 +46,10 @@ pyyaml>=6.0.1
 toml>=0.10.2
 jsonschema>=4.19.0
 
-# Machine Learning
-scikit-learn>=1.3.0
-tensorflow>=2.14.0
-torch>=2.1.0
+# Machine Learning (optional - comment out if not needed)
+# scikit-learn>=1.3.0
+# tensorflow>=2.14.0
+# torch>=2.1.0
 
 # Web Scraping
 scrapy>=2.11.0
@@ -94,11 +94,11 @@ pytest>=7.4.0
 pytest-asyncio>=0.21.0
 pytest-cov>=4.1.0
 
-# Code Quality
-black>=23.0.0
-flake8>=6.1.0
-mypy>=1.6.0
-pylint>=3.0.0
+# Code Quality (optional - for development)
+# black>=23.0.0
+# flake8>=6.1.0
+# mypy>=1.6.0
+# pylint>=3.0.0
 
 # Performance
 uvloop>=0.19.0

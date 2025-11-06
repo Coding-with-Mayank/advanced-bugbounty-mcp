@@ -1,0 +1,106 @@
+# MCP Server
+mcp>=0.9.0
+pydantic>=2.0.0
+asyncio>=3.4.3
+aiohttp>=3.9.0
+aiofiles>=23.0.0
+
+# Web Framework
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+websockets>=12.0
+
+# Database
+motor>=3.3.0
+pymongo>=4.5.0
+redis>=5.0.0
+
+# Security Tools
+dnspython>=2.4.0
+requests>=2.31.0
+urllib3>=2.0.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+selenium>=4.15.0
+playwright>=1.40.0
+
+# API Integrations
+shodan>=1.31.0
+python-virustotal>=1.0.0
+censys>=2.2.0
+securitytrails>=1.3.0
+PyGithub>=2.1.1
+
+# Scanning & Analysis
+python-nmap>=0.7.1
+scapy>=2.5.0
+paramiko>=3.3.1
+cryptography>=41.0.0
+pyOpenSSL>=23.3.0
+
+# Data Processing
+pandas>=2.1.0
+numpy>=1.26.0
+python-dateutil>=2.8.2
+pyyaml>=6.0.1
+toml>=0.10.2
+jsonschema>=4.19.0
+
+# Machine Learning
+scikit-learn>=1.3.0
+tensorflow>=2.14.0
+torch>=2.1.0
+
+# Web Scraping
+scrapy>=2.11.0
+pyppeteer>=1.0.2
+
+# Reporting
+reportlab>=4.0.0
+matplotlib>=3.8.0
+pillow>=10.1.0
+jinja2>=3.1.2
+markdown>=3.5.0
+python-docx>=1.1.0
+
+# Utilities
+colorama>=0.4.6
+python-dotenv>=1.0.0
+click>=8.1.7
+tqdm>=4.66.0
+python-magic>=0.4.27
+watchdog>=3.0.0
+schedule>=1.2.0
+psutil>=5.9.0
+
+# Network
+httpx>=0.25.0
+httpcore>=1.0.0
+h2>=4.1.0
+socksio>=1.0.0
+
+# Parsing
+python-whois>=0.8.0
+tldextract>=5.0.0
+publicsuffix2>=2.20191221
+validators>=0.22.0
+
+# Logging
+python-json-logger>=2.0.7
+loguru>=0.7.2
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+
+# Code Quality
+black>=23.0.0
+flake8>=6.1.0
+mypy>=1.6.0
+pylint>=3.0.0
+
+# Performance
+uvloop>=0.19.0
+aiodns>=3.1.0
+cchardet>=2.1.7

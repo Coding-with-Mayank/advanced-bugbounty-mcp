@@ -1,0 +1,52 @@
+# Subfinder Configuration
+# Add your API keys here for better results
+
+# Passive sources
+sources:
+  - alienvault
+  - anubis
+  - bevigil
+  - binaryedge
+  - bufferover
+  - censys
+  - certspotter
+  - chaos
+  - chinaz
+  - commoncrawl
+  - crtsh
+  - dnsdumpster
+  - dnsrepo
+  - fofa
+  - fullhunt
+  - github
+  - hackertarget
+  - hunter
+  - intelx
+  - passivetotal
+  - quake
+  - rapiddns
+  - redhuntlabs
+  - securitytrails
+  - shodan
+  - sitedossier
+  - threatbook
+  - threatcrowd
+  - urlscan
+  - virustotal
+  - whoisxmlapi
+  - zoomeye
+
+# API keys (optional but recommended)
+# binaryedge: YOUR_API_KEY
+# censys:
+#   - YOUR_API_ID:YOUR_API_SECRET
+# certspotter: YOUR_API_KEY
+# chaos: YOUR_API_KEY
+# github: YOUR_API_KEY
+# intelx: YOUR_API_KEY
+# passivetotal: YOUR_API_KEY
+# securitytrails: YOUR_API_KEY
+# shodan: YOUR_API_KEY
+# urlscan: YOUR_API_KEY
+# virustotal: YOUR_API_KEY
+# zoomeye: YOUR_API_KEY

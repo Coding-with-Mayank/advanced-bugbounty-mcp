@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug Bounty Dashboard - Advanced MCP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .stat-card h3 {
+            color: #666;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card .value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-card.critical .value {
+            color: #e74c3c;
+        }
+        
+        .stat-card.high .value {
+            color: #e67e22;
+        }
+        
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .info-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .info-box p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .feature {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .feature h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        
+        .feature p {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        .status.online {
+            background: #2ecc71;
+            color: white;
+        }
+        
+        .status.offline {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            padding: 20px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔥 Advanced Bug Bounty Dashboard</h1>
+            <p class="subtitle">MCP Server v2.1.0 - AI-Powered Security Testing Platform</p>
+        </header>
+        
+        <div class="stats-grid" id="stats">
+            <div class="stat-card">
+                <h3>Total Scans</h3>
+                <div class="value" id="totalScans">-</div>
+            </div>
+            <div class="stat-card">
+                <h3>Vulnerabilities Found</h3>
+                <div class="value" id="totalVulns">-</div>
+            </div>
+            <div class="stat-card critical">
+                <h3>Critical Issues</h3>
+                <div class="value" id="criticalVulns">-</div>
+            </div>
+            <div class="stat-card high">
+                <h3>High Severity</h3>
+                <div class="value" id="highVulns">-</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 System Status</h2>
+            <div class="info-box">
+                <h3>MCP Server: <span class="status online" id="serverStatus">Online</span></h3>
+                <p>The Advanced Bug Bounty MCP Server is running and ready to accept commands through Claude.</p>
+                <p style="margin-top: 10px;"><strong>Dashboard URL:</strong> http://localhost:3000</p>
+                <p><strong>MCP Server:</strong> http://localhost:9090</p>
+                <p><strong>API Endpoint:</strong> http://localhost:8080</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>✨ Available Features</h2>
+            <div class="features">
+                <div class="feature">
+                    <h4>🔍 Reconnaissance</h4>
+                    <p>Multi-source subdomain enumeration, port scanning, and technology detection</p>
+                </div>
+                <div class="feature">
+                    <h4>🛡️ Vulnerability Scanning</h4>
+                    <p>XSS, SQLi, SSRF, IDOR, XXE, CORS detection with 5000+ Nuclei templates</p>
+                </div>
+                <div class="feature">
+                    <h4>🔐 CDN Detection</h4>
+                    <p>Identify CDN providers, find origin IPs, detect protection mechanisms</p>
+                </div>
+                <div class="feature">
+                    <h4>📊 Intelligence Integration</h4>
+                    <p>Shodan, VirusTotal, Censys, SecurityTrails, Hunter, GitHub</p>
+                </div>
+                <div class="feature">
+                    <h4>🌐 Asset Discovery</h4>
+                    <p>Cloud storage enumeration, JavaScript analysis, API endpoint discovery</p>
+                </div>
+                <div class="feature">
+                    <h4>📝 Auto-Reporting</h4>
+                    <p>Professional bug bounty reports with CVSS scoring in multiple formats</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📖 Quick Start</h2>
+            <div class="info-box">
+                <h3>Using with Claude Desktop</h3>
+                <p>1. Open Claude Desktop</p>
+                <p>2. Ask: <em>"List available bug bounty tools"</em></p>
+                <p>3. Start hunting: <em>"Run full reconnaissance on example.com"</em></p>
+                <p>4. Detect CDN: <em>"Check if example.com uses a CDN"</em></p>
+                <p style="margin-top: 15px;"><strong>New in v2.1.0:</strong> CDN Detection tool for infrastructure analysis</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Made with ❤️ for the bug bounty community</p>
+            <p>Advanced Bug Bounty MCP Server © 2025</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Fetch statistics
+        async function fetchStats() {
+            try {
+                const response = await fetch('/api/stats');
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('totalScans').textContent = data.totalScans || 0;
+                    document.getElementById('totalVulns').textContent = data.totalVulnerabilities || 0;
+                    document.getElementById('criticalVulns').textContent = data.criticalVulns || 0;
+                    document.getElementById('highVulns').textContent = data.highVulns || 0;
+                    document.getElementById('serverStatus').textContent = 'Online';
+                    document.getElementById('serverStatus').className = 'status online';
+                }
+            } catch (error) {
+                console.error('Error fetching stats:', error);
+                document.getElementById('serverStatus').textContent = 'Offline';
+                document.getElementById('serverStatus').className = 'status offline';
+            }
+        }
+        
+        // Fetch stats on load
+        fetchStats();
+        
+        // Refresh stats every 30 seconds
+        setInterval(fetchStats, 30000);
+    </script>
+</body>
+</html>

@@ -15,6 +15,7 @@
 - **🌐 Asset Discovery**: Cloud storage buckets (S3, Azure, GCS), API endpoints, JavaScript analysis
 - **🛡️ Vulnerability Scanning**: XSS, SQLi, SSRF, IDOR, XXE, CORS, and 50+ vulnerability types
 - **📊 Intelligence Integration**: Shodan, VirusTotal, Censys, SecurityTrails, Hunter, GitHub
+- **🔐 CDN Detection**: Identify CDN providers, find origin IPs, and detect protection mechanisms
 - **📝 Auto-Reporting**: Generates professional bug bounty reports with CVSS scoring
 - **🔄 Continuous Monitoring**: Real-time asset monitoring and change detection
 - **🐋 Production Ready**: Docker & Docker Compose with health checks and logging
@@ -90,6 +91,7 @@ make install
 - `recon_full` - Comprehensive reconnaissance
 - `subdomain_enum` - Advanced subdomain enumeration
 - `port_scan` - Fast port scanning with service detection
+- `cdn_detection` - **NEW!** Detect CDN providers and analyze infrastructure
 
 ### Asset Discovery
 - `cloud_enum` - Enumerate cloud storage buckets
@@ -105,7 +107,7 @@ make install
 ### Intelligence Gathering
 - `shodan_search` - Query Shodan
 - `virustotal_analyze` - Analyze with VirusTotal
-- `censys_search` - Search Censys
+- `censys_search` - Search Censys (now with simplified API key)
 - `github_dorking` - Search GitHub for secrets
 
 ### Exploitation & Reporting
@@ -120,42 +122,59 @@ make install
 I want to start bug bounty hunting on example.com. Run a full passive reconnaissance.
 ```
 
-### Example 2: Vulnerability Hunt
+### Example 2: CDN Detection (NEW!)
+```
+Check if example.com uses a CDN and identify potential bypass techniques.
+```
+
+### Example 3: Vulnerability Hunt
 ```
 I found subdomains for example.com. Scan them for XSS and SQL injection vulnerabilities.
 ```
 
-### Example 3: Cloud Enumeration
+### Example 4: Cloud Enumeration
 ```
 Check if example.com has any exposed AWS S3 buckets or Azure containers.
 ```
 
-### Example 4: Intelligence Gathering
+### Example 5: Intelligence Gathering
 ```
 Search Shodan for all services related to example.com and check for known vulnerabilities.
 ```
 
-### Example 5: Complete Workflow
+### Example 6: Complete Workflow
 ```
 1. Run full recon on example.com
-2. Scan all found assets for vulnerabilities
-3. Validate findings
-4. Generate a professional report for the high-severity issues
+2. Check for CDN usage and identify infrastructure
+3. Scan all found assets for vulnerabilities
+4. Validate findings
+5. Generate a professional report for the high-severity issues
 ```
 
 ## 🔧 Configuration
 
 ### Required API Keys (.env)
 
+**⚠️ IMPORTANT: Censys API has changed!**
+
+Censys now uses a **single API key** instead of separate ID and Secret:
+
 ```env
 SHODAN_API_KEY=your_shodan_key
 VIRUSTOTAL_API_KEY=your_virustotal_key
-CENSYS_API_ID=your_censys_id
-CENSYS_API_SECRET=your_censys_secret
+CENSYS_API_KEY=your_censys_api_key          # NEW FORMAT - single key only!
 GITHUB_TOKEN=your_github_token
 SECURITYTRAILS_API_KEY=your_securitytrails_key
 HUNTER_API_KEY=your_hunter_key
 ```
+
+**Old format (no longer valid):**
+```env
+CENSYS_API_ID=your_censys_id                # DEPRECATED
+CENSYS_API_SECRET=your_censys_secret        # DEPRECATED
+```
+
+Get your Censys API key at: https://search.censys.io/account/api
 
 ### Optional AI Providers
 
@@ -163,6 +182,33 @@ HUNTER_API_KEY=your_hunter_key
 GROQ_API_KEY=your_groq_key
 OPENAI_API_KEY=your_openai_key
 ```
+
+## 🆕 What's New
+
+### Version 2.1.0 (Latest)
+- ✨ **CDN Detection Tool**: Identify CDN providers (Cloudflare, Akamai, Fastly, etc.)
+  - DNS CNAME analysis
+  - HTTP header fingerprinting
+  - IP range matching
+  - Bug bounty-specific insights for WAF bypass and origin IP discovery
+- 🔧 **Updated Censys API**: Now uses single API key format (breaking change)
+- 📚 Enhanced documentation with CDN detection examples
+- 🛡️ Improved infrastructure analysis capabilities
+
+### CDN Detection Features
+The new `cdn_detection` tool helps identify:
+- CDN provider (Cloudflare, Akamai, Fastly, CloudFront, etc.)
+- Protection mechanisms in place
+- Potential origin IP leakage
+- Next steps for bug bounty hunters
+- WAF bypass techniques
+
+This is crucial for bug bounty hunting because:
+- Helps understand the security posture
+- Identifies potential CDN misconfigurations
+- Reveals origin IPs for direct testing
+- Assists in cache poisoning detection
+- Guides WAF bypass strategies
 
 ## 📊 Dashboard & Monitoring
 
@@ -174,6 +220,7 @@ Access the web dashboard at `http://localhost:8080`
 - Asset inventory
 - Historical reports
 - API usage statistics
+- CDN detection results
 
 ## 🛠️ Useful Commands
 
@@ -208,7 +255,8 @@ Common issues:
 - Container won't start: `make rebuild`
 - Claude can't connect: Check config file location
 - High memory usage: Reduce `MAX_THREADS` in .env
-- API errors: Verify API keys in .env
+- API errors: Verify API keys in .env (especially new Censys format!)
+- CDN detection failing: Ensure `dnspython` and `requests` are installed
 
 ## 📖 Documentation
 
@@ -216,6 +264,7 @@ Common issues:
 - [Project Structure](PROJECT_STRUCTURE.md)
 - [API Documentation](docs/API.md)
 - [Contributing Guidelines](CONTRIBUTING.md)
+- [Changelog](CHANGELOG.md)
 
 ## ⚠️ Legal Disclaimer
 
@@ -254,6 +303,7 @@ Built with insights from:
 - Bug Bounty community
 - awesome-bugbounty-tools
 - ProjectDiscovery tools
+- [ExternalAttacker-MCP](https://github.com/MorDavid/ExternalAttacker-MCP) for CDN detection inspiration
 
 ## 📞 Support
 

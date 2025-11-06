@@ -1,0 +1,117 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+PIPFILE.lock
+
+# Virtual Environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Docker
+*.log
+
+# Data & Reports
+data/
+reports/
+logs/
+backups/
+
+# Testing
+.pytest_cache/
+.coverage
+.hypothesis/
+htmlcov/
+*.cover
+*.py,cover
+.tox/
+.nox/
+coverage.xml
+*.coveragerc
+
+# Temporary
+*.tmp
+*.temp
+tmp/
+temp/
+
+# OS
+Thumbs.db
+.Spotlight-V100
+.Trashes
+
+# Nuclei
+nuclei-templates/.git/
+
+# Wordlists (large files)
+wordlists/*.txt
+!wordlists/README.md
+
+# Database dumps
+*.sql
+*.db
+*.sqlite
+*.sqlite3
+
+# Secrets
+*.pem
+*.key
+*.crt
+*.p12
+
+# Node (for dashboard)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Build outputs
+dist/
+build/
+*.pyc
+
+# Cache
+.cache/
+*.cache
+
+# MongoDB
+mongo-data/
+
+# Redis
+redis-data/

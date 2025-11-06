@@ -1,0 +1,142 @@
+version: '3.8'
+
+services:
+  mcp-server:
+    container_name: bugbounty-mcp
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./reports:/app/reports
+      - ./wordlists:/app/wordlists
+      - ./nuclei-templates:/app/nuclei-templates
+      - ./logs:/app/logs
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8080:8080"  # Web dashboard
+      - "9090:9090"  # MCP server
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - bugbounty-net
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; socket.create_connection(('localhost', 9090), timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 8G
+        reservations:
+          cpus: '2'
+          memory: 4G
+    stdin_open: true
+    tty: true
+    command: python -m mcp_server
+
+  mongodb:
+    image: mongo:7
+    container_name: bugbounty-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-bugbounty_secure_pass}
+      MONGO_INITDB_DATABASE: bugbounty
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    ports:
+      - "27017:27017"
+    networks:
+      - bugbounty-net
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: bugbounty-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-bugbounty_redis}
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - bugbounty-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  nuclei:
+    image: projectdiscovery/nuclei:latest
+    container_name: bugbounty-nuclei
+    restart: unless-stopped
+    volumes:
+      - ./nuclei-templates:/root/nuclei-templates
+      - ./data:/app/data
+    networks:
+      - bugbounty-net
+    command: tail -f /dev/null
+
+  httpx:
+    image: projectdiscovery/httpx:latest
+    container_name: bugbounty-httpx
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+    networks:
+      - bugbounty-net
+    command: tail -f /dev/null
+
+  subfinder:
+    image: projectdiscovery/subfinder:latest
+    container_name: bugbounty-subfinder
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+      - ./config/subfinder:/root/.config/subfinder
+    networks:
+      - bugbounty-net
+    command: tail -f /dev/null
+
+  web-dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    container_name: bugbounty-dashboard
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mcp-server
+      - mongodb
+    environment:
+      - MONGODB_URI=mongodb://admin:${MONGO_PASSWORD:-bugbounty_secure_pass}@mongodb:27017/bugbounty?authSource=admin
+      - API_URL=http://mcp-server:8080
+    networks:
+      - bugbounty-net
+
+volumes:
+  mongodb_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  bugbounty-net:
+    driver: bridge

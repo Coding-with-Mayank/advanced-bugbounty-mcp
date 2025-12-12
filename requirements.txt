@@ -1,106 +1,150 @@
-# MCP Server
-mcp>=0.9.0
-pydantic>=2.0.0
-aiohttp>=3.9.0
-aiofiles>=23.0.0
+# ============================================
+# Advanced Bug Bounty MCP Server - Requirements
+# Updated for 2025
+# ============================================
+
+# MCP Server Core
+mcp>=1.0.0
+pydantic>=2.10.0
+pydantic-settings>=2.6.0
+aiohttp>=3.11.0
+aiofiles>=24.1.0
+httpx>=0.28.0
 
 # Web Framework
-fastapi>=0.104.0
-uvicorn[standard]>=0.24.0
-websockets>=12.0
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+websockets>=14.0
+starlette>=0.41.0
 
 # Database
-motor>=3.3.0
-pymongo>=4.5.0
-redis>=5.0.0
+motor>=3.6.0
+pymongo>=4.10.0
+redis>=5.2.0
+pymongo[srv]>=4.10.0
 
-# Security Tools
-dnspython>=2.4.0
-requests>=2.31.0
-urllib3>=2.0.0
-beautifulsoup4>=4.12.0
-lxml>=4.9.0
-selenium>=4.15.0
-playwright>=1.40.0
+# Security Tools & Libraries
+dnspython>=2.7.0
+requests>=2.32.0
+urllib3>=2.2.0
+beautifulsoup4>=4.12.3
+lxml>=5.3.0
+selenium>=4.27.0
+playwright>=1.49.0
+certifi>=2024.8.30
 
-# API Integrations
+# API Integrations for Bug Bounty
 shodan>=1.31.0
-# python-virustotal causes issues, using vt-py instead
-vt-py>=0.17.0
-censys>=2.2.0
-# securitytrails>=1.3.0  # Optional - may not be available
-PyGithub>=2.1.1
+vt-py>=0.24.0
+censys>=2.2.15
+PyGithub>=2.5.0
+slack-sdk>=3.33.0
+discord-webhook>=1.3.1
 
-# Scanning & Analysis
+# Scanning & Network Analysis
 python-nmap>=0.7.1
-scapy>=2.5.0
-paramiko>=3.3.1
-cryptography>=41.0.0
-pyOpenSSL>=23.3.0
+scapy>=2.6.1
+paramiko>=3.5.0
+cryptography>=44.0.0
+pyOpenSSL>=24.3.0
+impacket>=0.13.0
 
-# Data Processing
-pandas>=2.1.0
-numpy>=1.26.0
-python-dateutil>=2.8.2
-pyyaml>=6.0.1
+# Data Processing & Analysis
+pandas>=2.2.0
+numpy>=2.2.0
+python-dateutil>=2.9.0
+pyyaml>=6.0.2
 toml>=0.10.2
-jsonschema>=4.19.0
+jsonschema>=4.23.0
+orjson>=3.10.0
 
-# Machine Learning (optional - comment out if not needed)
-# scikit-learn>=1.3.0
-# tensorflow>=2.14.0
-# torch>=2.1.0
+# Web Scraping & Crawling
+scrapy>=2.12.0
+pyppeteer>=2.0.0
+requests-html>=0.10.0
 
-# Web Scraping
-scrapy>=2.11.0
-pyppeteer>=1.0.2
-
-# Reporting
-reportlab>=4.0.0
-matplotlib>=3.8.0
-pillow>=10.1.0
-jinja2>=3.1.2
-markdown>=3.5.0
-python-docx>=1.1.0
+# Reporting & Visualization
+reportlab>=4.2.0
+matplotlib>=3.9.0
+pillow>=11.0.0
+jinja2>=3.1.4
+markdown>=3.7.0
+python-docx>=1.1.2
+plotly>=5.24.0
 
 # Utilities
 colorama>=0.4.6
-python-dotenv>=1.0.0
+python-dotenv>=1.0.1
 click>=8.1.7
-tqdm>=4.66.0
+tqdm>=4.67.0
 python-magic>=0.4.27
-watchdog>=3.0.0
-schedule>=1.2.0
-psutil>=5.9.0
+watchdog>=6.0.0
+schedule>=1.2.2
+psutil>=6.1.0
+rich>=13.9.0
+tabulate>=0.9.0
 
-# Network
-httpx>=0.25.0
-httpcore>=1.0.0
+# Network & HTTP
+httpcore>=1.0.7
 h2>=4.1.0
 socksio>=1.0.0
+httptools>=0.6.4
+websocket-client>=1.8.0
 
-# Parsing
-python-whois>=0.8.0
-tldextract>=5.0.0
-publicsuffix2>=2.20191221
-validators>=0.22.0
+# Parsing & Validation
+python-whois>=0.9.4
+tldextract>=5.1.2
+validators>=0.34.0
+parse>=1.20.2
+user-agents>=2.2.0
 
-# Logging
-python-json-logger>=2.0.7
+# Logging & Monitoring
+python-json-logger>=3.2.0
 loguru>=0.7.2
+sentry-sdk>=2.18.0
 
-# Testing
-pytest>=7.4.0
-pytest-asyncio>=0.21.0
-pytest-cov>=4.1.0
+# Cloud & Infrastructure
+boto3>=1.35.0
+google-cloud-storage>=2.19.0
+azure-storage-blob>=12.24.0
 
-# Code Quality (optional - for development)
-# black>=23.0.0
-# flake8>=6.1.0
-# mypy>=1.6.0
-# pylint>=3.0.0
+# AI/ML Support (optional but recommended)
+openai>=1.57.0
+anthropic>=0.42.0
+langchain>=0.3.0
+tiktoken>=0.8.0
 
-# Performance
-uvloop>=0.19.0
-aiodns>=3.1.0
+# Testing & Quality
+pytest>=8.3.0
+pytest-asyncio>=0.24.0
+pytest-cov>=6.0.0
+pytest-timeout>=2.3.0
+faker>=33.0.0
+
+# Performance & Async
+uvloop>=0.21.0
+aiodns>=3.2.0
 cchardet>=2.1.7
+aioredis>=2.0.1
+asyncpg>=0.30.0
+
+# Security Analysis Tools
+sqlparse>=0.5.0
+jwt>=1.3.1
+PyJWT>=2.9.0
+passlib>=1.7.4
+
+# Additional Bug Bounty Utilities
+sublist3r>=1.1
+dnsgen>=1.0.4
+massdns>=1.1.0
+
+# Code Quality (Development)
+black>=24.10.0
+ruff>=0.8.0
+mypy>=1.13.0
+pre-commit>=4.0.0
+
+# Documentation
+mkdocs>=1.6.0
+mkdocs-material>=9.5.0

@@ -1,0 +1,51 @@
+# Use this for full build with 30+ tools
+# docker-compose -f docker-compose.full.yml build
+
+version: '3.8'
+
+services:
+  mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.full
+      args:
+        - INSTALL_TOOLS=true
+    container_name: bugbounty-mcp
+    ports:
+      - "9090:9090"
+      - "8080:8080"
+    volumes:
+      - ./data:/app/data
+      - ./reports:/app/reports
+      - ./logs:/app/logs
+    env_file:
+      - .env
+    restart: unless-stopped
+    depends_on:
+      - mongo
+      - redis
+
+  mongo:
+    image: mongo:7
+    container_name: bugbounty-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_DATABASE: bugbounty
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: bugbounty-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
+  redis_data:
